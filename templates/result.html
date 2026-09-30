@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FitBuddy - Your Fitness Plan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: #17221c;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(34, 197, 94, 0.14),
+                    transparent 34%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(20, 184, 166, 0.13),
+                    transparent 35%
+                ),
+                #f4f8f6;
+        }
+
+        /* =========================
+           DECORATIVE BACKGROUND
+        ========================= */
+
+        .background-shape {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape-one {
+            width: 230px;
+            height: 230px;
+
+            top: -100px;
+            left: -90px;
+
+            background: rgba(34, 197, 94, 0.09);
+        }
+
+        .shape-two {
+            width: 300px;
+            height: 300px;
+
+            right: -130px;
+            bottom: -130px;
+
+            background: rgba(20, 184, 166, 0.08);
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+
+            width: 100%;
+            padding: 35px 18px 45px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 15px;
+            margin-bottom: 14px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(34, 197, 94, 0.20);
+
+            color: #15803d;
+            font-size: 13px;
+            font-weight: 750;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.055);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 5px rgba(34, 197, 94, 0.11);
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(38px, 7vw, 58px);
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+            font-weight: 850;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #14532d,
+                    #16a34a,
+                    #0f766e
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text {
+            max-width: 650px;
+
+            margin: 12px auto 0;
+
+            color: #69776f;
+
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        /* =========================
+           COMMON CARD
+        ========================= */
+
+        .card {
+            margin-bottom: 20px;
+            padding: 27px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border: 1px solid rgba(148, 163, 184, 0.18);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 18px 50px rgba(15, 23, 42, 0.075);
+
+            backdrop-filter: blur(12px);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 22px 55px rgba(15, 23, 42, 0.09);
+        }
+
+        /* =========================
+           CARD HEADER
+        ========================= */
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            margin-bottom: 22px;
+            padding-bottom: 17px;
+
+            border-bottom: 1px solid #edf1ee;
+        }
+
+        .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            width: 48px;
+            height: 48px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dcfce7,
+                    #ccfbf1
+                );
+
+            font-size: 22px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+
+            color: #1c2b22;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .card-header p {
+            margin: 4px 0 0;
+
+            color: #7b887f;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           USER DETAILS
+        ========================= */
+
+        .user-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 12px;
+        }
+
+        .user-item {
+            padding: 16px 14px;
+
+            border-radius: 15px;
+
+            background: #f7faf8;
+
+            border: 1px solid #e7eee9;
+        }
+
+        .user-label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #7c8a81;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .user-value {
+            display: block;
+
+            color: #24352b;
+
+            font-size: 15px;
+            font-weight: 750;
+
+            word-break: break-word;
+        }
+
+        /* =========================
+           WORKOUT PLAN
+        ========================= */
+
+        .plan-wrapper {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 22px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f7fcf8,
+                    #f1f8f4
+                );
+
+            border: 1px solid #e2ebe5;
+        }
+
+        .plan-wrapper::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background:
+                linear-gradient(
+                    #22c55e,
+                    #0f766e
+                );
+        }
+
+        .plan {
+            position: relative;
+
+            white-space: pre-wrap;
+
+            color: #34453b;
+
+            font-size: 15px;
+            line-height: 1.85;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           NUTRITION
+        ========================= */
+
+        .nutrition-wrapper {
+            padding: 22px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f7fcf8,
+                    #f1faf7
+                );
+
+            border: 1px solid #e0ece5;
+        }
+
+        .nutrition {
+            color: #34453b;
+
+            font-size: 15px;
+            line-height: 1.85;
+
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           FEEDBACK CARD
+        ========================= */
+
+        .feedback-card {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f3faf6
+                );
+        }
+
+        .feedback-description {
+            margin: -5px 0 18px;
+
+            color: #68776e;
+
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        textarea {
+            display: block;
+
+            width: 100%;
+            min-height: 135px;
+
+            padding: 15px 16px;
+
+            resize: vertical;
+
+            border: 1.5px solid #dce5df;
+            border-radius: 15px;
+
+            background: #fbfdfc;
+
+            color: #25332b;
+
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.6;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        textarea::placeholder {
+            color: #9aa59f;
+        }
+
+        textarea:hover {
+            border-color: #b9c9be;
+            background: #ffffff;
+        }
+
+        textarea:focus {
+            border-color: #22a65a;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 4px rgba(34, 166, 90, 0.11);
+        }
+
+        /* =========================
+           UPDATE BUTTON
+        ========================= */
+
+        button {
+            position: relative;
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            width: 100%;
+            min-height: 53px;
+
+            margin-top: 14px;
+            padding: 14px 20px;
+
+            border: none;
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #0f9f63,
+                    #0f766e
+                );
+
+            color: white;
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 11px 24px rgba(22, 163, 74, 0.22);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        button::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 80%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.24),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition: left 0.6s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 16px 30px rgba(22, 163, 74, 0.29);
+
+            filter: brightness(1.04);
+        }
+
+        button:hover::before {
+            left: 140%;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: fit-content;
+
+            margin: 25px auto 0;
+            padding: 11px 18px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.82);
+
+            border: 1px solid #dce6df;
+
+            color: #39704e;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 750;
+
+            box-shadow:
+                0 8px 22px rgba(15, 23, 42, 0.05);
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+
+            background: #ffffff;
+
+            border-color: #b9d4c1;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 30px;
+
+            text-align: center;
+
+            color: #8a958e;
+
+            font-size: 12px;
+        }
+
+        .footer strong {
+            color: #4b6254;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .user-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .page-wrapper {
+                padding: 25px 13px 35px;
+            }
+
+            h1 {
+                font-size: 42px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-text {
+                padding: 0 8px;
+
+                font-size: 14px;
+            }
+
+            .card {
+                padding: 20px 17px;
+
+                border-radius: 19px;
+            }
+
+            .card-header h2 {
+                font-size: 19px;
+            }
+
+            .user-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .plan-wrapper,
+            .nutrition-wrapper {
+                padding: 17px;
+            }
+
+            .plan,
+            .nutrition {
+                font-size: 14px;
+                line-height: 1.75;
+            }
+
+            textarea {
+                min-height: 125px;
+            }
+        }
+
+        @media (max-width: 390px) {
+
+            .user-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px 14px;
+            }
+
+            .card-header {
+                gap: 10px;
+            }
+
+            .card-icon {
+                width: 43px;
+                height: 43px;
+            }
+
+            .plan-wrapper,
+            .nutrition-wrapper {
+                padding: 15px;
+            }
+        }
+
+        /* =========================
+           REDUCED MOTION
+        ========================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background-shape shape-one"></div>
+    <div class="background-shape shape-two"></div>
+
+
+    <main class="page-wrapper">
+
+        <div class="container">
+
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <div class="hero-badge">
+                    <span class="hero-dot"></span>
+                    YOUR PERSONAL AI FITNESS COACH
+                </div>
+
+                <h1>
+                    💪 Your FitBuddy Plan
+                </h1>
+
+                <p class="hero-text">
+                    Your personalized 7-day workout and
+                    nutrition plan is ready. Stay consistent,
+                    track your progress, and keep moving forward.
+                </p>
+
+            </section>
+
+
+            {% if feedback_message %}
+                <div style="background: #dcfce7; color: #166534; padding: 14px 20px; border-radius: 14px; margin-bottom: 20px; text-align: center; font-weight: 700; border: 1px solid #bbf7d0;">
+                    ✅ {{ feedback_message }}
+                </div>
+            {% endif %}
+
+
+            <!-- USER DETAILS -->
+
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h2>Your Details</h2>
+
+                        <p>
+                            Your plan is personalized using these details.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="user-grid">
+
+                    <div class="user-item">
+
+                        <span class="user-label">
+                            Name
+                        </span>
+
+                        <span class="user-value">
+                            {{ user.name }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="user-item">
+
+                        <span class="user-label">
+                            Age
+                        </span>
+
+                        <span class="user-value">
+                            {{ user.age }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="user-item">
+
+                        <span class="user-label">
+                            Weight
+                        </span>
+
+                        <span class="user-value">
+                            {{ user.weight }} kg
+                        </span>
+
+                    </div>
+
+
+                    <div class="user-item">
+
+                        <span class="user-label">
+                            Goal
+                        </span>
+
+                        <span class="user-value">
+                            {{ user.goal }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="user-item">
+
+                        <span class="user-label">
+                            Intensity
+                        </span>
+
+                        <span class="user-value">
+                            {{ user.intensity }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- WORKOUT PLAN -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        🏋️
+                    </div>
+
+                    <div>
+
+                        <h2>7-Day Workout Plan</h2>
+
+                        <p>
+                            Your personalized workout schedule.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="plan-wrapper">
+
+                    <div class="plan">
+                        {{ workout_plan }}
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- NUTRITION -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        🥗
+                    </div>
+
+                    <div>
+
+                        <h2>Nutrition & Recovery</h2>
+
+                        <p>
+                            Simple guidance to support your fitness journey.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="nutrition-wrapper">
+
+                    <div class="nutrition">
+                        {{ nutrition_tip }}
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FEEDBACK -->
+
+            <section class="card feedback-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        🔄
+                    </div>
+
+                    <div>
+
+                        <h2>Customize Your Workout</h2>
+
+                        <p>
+                            Tell FitBuddy how you'd like to change your plan.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <p class="feedback-description">
+
+                    Want something easier, harder, shorter,
+                    or more focused on a specific type of exercise?
+                    Tell FitBuddy and it will create an updated plan.
+
+                </p>
+
+
+                <form
+                    action="/submit-feedback"
+                    method="post"
+                >
+
+                    <input
+                        type="hidden"
+                        name="user_id"
+                        value="{{ user.id }}"
+                    >
+
+
+                    <textarea
+                        name="feedback"
+                        placeholder="Example: Make Day 2 easier and add more cardio..."
+                        required
+                    ></textarea>
+
+
+                    <button type="submit">
+
+                        <span>✨</span>
+
+                        <span>
+                            Update My Workout Plan
+                        </span>
+
+                        <span>→</span>
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- BACK -->
+
+            <a
+                class="back-button"
+                href="/"
+            >
+                ← Create Another Fitness Plan
+            </a>
+
+
+            <!-- FOOTER -->
+
+            <footer class="footer">
+
+                <strong>FitBuddy</strong>
+                &nbsp;•&nbsp;
+                AI Fitness Plan Generator
+                &nbsp;•&nbsp;
+                <a href="/view-all-users" style="color: inherit; text-decoration: underline;">Admin Dashboard</a>
+
+            </footer>
+
+
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            if (form) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                form.addEventListener('submit', () => {
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<span>⏳</span><span>Updating workout plan...</span>';
+                        submitBtn.style.opacity = '0.8';
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
